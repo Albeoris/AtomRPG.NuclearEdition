@@ -33,37 +33,36 @@ namespace AtomRPG.NuclearEdition
 
         void OnDisable()
         {
-            // Return an original weight for the left backpack
-            ChangeLeftBackpack(Game.World.Player.CharacterComponent);
+            // Return the MC's data of the left backpack
+            ChangeLeftBackpack(new CharacterInventory(Game.World.Player.CharacterComponent));
         }
 
-        private void ChangeLeftBackpack(CharacterComponent component)
+        private void ChangeLeftBackpack(IInventoryOwner character)
         {
-            Character character = component.Character;
-            
             mLeftInventory.Value = character.Inventory;
-            LeftBackpack.SetMaxWeigth(character.Stats.MaxCarryWeight);
+            LeftBackpack.SetMaxWeigth(character.MaxCarryWeight);
             _originalHud.ShowBackpackWithCost(LeftBackpack, character.Inventory);
         }
 
         private void Switch(SwitchDirection switchDirection)
         {
-            if (!TryGetSwitchableAllies(out List<CharacterComponent> allies))
+            List<IInventoryOwner> allies = GetSwitchableAllies();
+            if (allies.Count < 2)
                 return;
 
             Int32 newIndex = SwitchCurrentCharacterIndex(switchDirection, allies);
             if (newIndex == -1)
                 return;
 
-            CharacterComponent leftAlly = allies[newIndex];
+            IInventoryOwner leftAlly = allies[newIndex];
             ChangeLeftBackpack(leftAlly);
 
-            _originalHud.TradeBoxText.text = leftAlly.GetShortName();
+            _originalHud.TradeBoxText.text = leftAlly.DisplayName;
         }
 
-        private Int32 SwitchCurrentCharacterIndex(SwitchDirection switchDirection, List<CharacterComponent> allies)
+        private Int32 SwitchCurrentCharacterIndex(SwitchDirection switchDirection, List<IInventoryOwner> allies)
         {
-            var currentIndex = allies.FindIndex(cc => cc.Character.Inventory == mLeftInventory.Value);
+            Int32 currentIndex = allies.FindIndex(cc => cc.Inventory == mLeftInventory.Value);
             switch (switchDirection)
             {
                 case SwitchDirection.Left:
@@ -75,29 +74,35 @@ namespace AtomRPG.NuclearEdition
             }
         }
 
-        private Boolean TryGetSwitchableAllies(out List<CharacterComponent> allies)
+        private List<IInventoryOwner> GetSwitchableAllies()
         {
-            allies = Game.World.GetAllTeamMates();
-            if (allies.Count == 0)
-                return false;
+            List<IInventoryOwner> result = new List<IInventoryOwner>(capacity: 8);
 
             Inventory rightInventory = mRightInventory.Value;
 
-            // Filter right side team mate
-            foreach (CharacterComponent ally in allies)
+            // Add vehicle if it's on the current location and not on the right side of the barter window
+            if (Game.World.VehicleOnLocation())
             {
-                if (ally.Character.Inventory == rightInventory)
-                {
-                    allies.Remove(ally);
-                    break;
-                }
+                VehicleInventory vehicle = new VehicleInventory(Game.World.Vehicle);
+                if (rightInventory != vehicle.Inventory)
+                    result.Add(vehicle);
             }
 
-            // Filter right side player
-            if (rightInventory != Game.World.Player.CharacterComponent.Character.Inventory)
-                allies.Add(Game.World.Player.CharacterComponent);
+            // Add player if it isn't on the right side of the barter window
+            CharacterInventory player = new CharacterInventory(Game.World.Player.CharacterComponent);
+            if (rightInventory != player.Inventory)
+                result.Add(player);
 
-            return allies.Count > 1;
+            // Add teammates except the owner of the right side inventory
+            List<CharacterComponent> teamMates = Game.World.GetAllTeamMates();
+            foreach (CharacterComponent teamMate in teamMates)
+            {
+                CharacterInventory ally = new CharacterInventory(teamMate);
+                if (rightInventory != ally.Inventory)
+                    result.Add(ally);
+            }
+
+            return result;
         }
 
         private SwitchDirection CheckSwitch()
