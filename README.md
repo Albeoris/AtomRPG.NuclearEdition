@@ -2,7 +2,7 @@
 Modification for the game Atom RPG
 
 # Install (easy)
-Unpack [that](https://yadi.sk/d/y1xvbLlT8gWMQQ) archive to the **game folder**
+Unpack [that](https://yadi.sk/d/lmsRd1LZK2v87w) archive to the **game folder**
 
 # Install (hard)
 1. Unpack [that](https://yadi.sk/d/tRON_stJkeC6ng) archive to the **game folder**
@@ -22,33 +22,33 @@ Unpack [that](https://yadi.sk/d/y1xvbLlT8gWMQQ) archive to the **game folder**
 
 # Current loader
 
-```string modsFolder = Path.GetFullPath("Mods");
-if (Directory.Exists(modsFolder))
-{
-	Debug.Log("Looking for mods (" + modsFolder + ")...");
-	foreach (string fileName in Directory.GetFiles(modsFolder, "*.dll", SearchOption.AllDirectories))
-	{
-		Debug.Log("Found assembly (" + fileName + "). Looking for entry points...");
-		try
-		{
-			foreach (Type type in Assembly.LoadFrom(fileName).GetTypes())
-			{
-				if (type.Name == "ModEntryPoint")
-				{
-					Debug.Log("Found entry point (" + type.FullName + "). Initializing...");
-					GameObject gameObject = new GameObject(fileName + "_" + type.FullName);
-					gameObject.AddComponent(type);
-					Object.DontDestroyOnLoad(gameObject);
-				}
-			}
-		}
-		catch (Exception ex)
-		{
-			Debug.LogError(string.Format("Failed to load assembly {0}. Error: {1}", fileName, ex));
-		}
-	}
-}
-else
-{
-	Debug.Log("Mods directory is not exists (" + modsFolder + ")");
-}```
+    string modsFolder = Path.GetFullPath("Mods");
+    if (Directory.Exists(modsFolder))
+    {
+        Debug.Log("Looking for mods (" + modsFolder + ")...");
+        foreach (string fileName in Directory.GetFiles(modsFolder, "*.dll", SearchOption.AllDirectories))
+        {
+            Debug.Log("Found assembly (" + fileName + "). Looking for entry points...");
+            try
+            {
+                foreach (Type type in Assembly.LoadFrom(fileName).GetTypes())
+                {
+                    if (type.Name == "ModEntryPoint")
+                    {
+                        Debug.Log("Found entry point (" + type.FullName + "). Initializing...");
+                        GameObject gameObject = new GameObject(fileName + "_" + type.FullName);
+                        gameObject.AddComponent(type);
+                        Object.DontDestroyOnLoad(gameObject);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(string.Format("Failed to load assembly {0}. Error: {1}", fileName, ex));
+            }
+        }
+    }
+    else
+    {
+        Debug.Log("Mods directory is not exists (" + modsFolder + ")");
+    }
