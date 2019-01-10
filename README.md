@@ -2,10 +2,10 @@
 Modification for the game Atom RPG
 
 # Install (easy)
-Unpack [that] (https://yadi.sk/d/LiNwcOkg7QQrjw) archive to the **game folder**
+Unpack [that](https://yadi.sk/d/LiNwcOkg7QQrjw) archive to the **game folder**
 
 # Install (hard)
-1. Unpack [that] (https://yadi.sk/d/tRON_stJkeC6ng) archive to the **game folder**
+1. Unpack [that](https://yadi.sk/d/tRON_stJkeC6ng) archive to the **game folder**
 2. Build and copy mod's DLL to the **game folder**\Mods\NuclearEdition
 
 # Build
