@@ -2,7 +2,7 @@
 Modification for the game Atom RPG
 
 # Install (easy)
-Unpack [that](https://yadi.sk/d/HvnTeuGUSu2rgQ) archive to the **game folder**
+Unpack [that](https://yadi.sk/d/F4hrVDjOl4pxRg) archive to the **game folder**
 
 # Install (hard)
 1. Unpack [that](https://yadi.sk/d/tRON_stJkeC6ng) archive to the **game folder**
