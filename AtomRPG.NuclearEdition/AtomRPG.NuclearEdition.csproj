@@ -10,7 +10,8 @@
     <RootNamespace>AtomRPG.NuclearEdition</RootNamespace>
     <AssemblyName>AtomRPG.NuclearEdition</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FrameworkPathOverride>W:\Steam\steamapps\common\ATOM RPG\AtomRPG_x64_Data\Managed</FrameworkPathOverride>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -23,6 +24,8 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>W:\Steam\steamapps\common\ATOM RPG\Mods\NuclearEdition\</OutputPath>
@@ -32,8 +35,13 @@
     <PlatformTarget>x64</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net35\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,16 +50,31 @@
     <Reference Include="UnityEngine.UI" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BarterHUD\CharacterInventory.cs" />
-    <Compile Include="BarterHUD\IInventoryOwner.cs" />
+    <Compile Include="BarterHUD\AutoSell\AutoSellAnalyzer.cs" />
+    <Compile Include="BarterHUD\AutoSell\AutoSellLogic.cs" />
+    <Compile Include="BarterHUD\BarterHUD_Proxy.cs" />
+    <Compile Include="BarterHUD\InventoryOwners\CharacterInventory.cs" />
+    <Compile Include="BarterHUD\InventoryOwners\IInventoryOwner.cs" />
+    <Compile Include="BarterHUD\PartyItems\PartyItemsCost.cs" />
+    <Compile Include="BarterHUD\PartyItems\InventoryItem.cs" />
+    <Compile Include="BarterHUD\PartyItems\PartyInventory.cs" />
+    <Compile Include="BarterHUD\PartyItems\PartyItem.cs" />
+    <Compile Include="LootRadius\LootRadiusPatches.cs" />
     <Compile Include="Utils\ExtensionMethodsList.cs" />
     <Compile Include="Utils\FieldAccessor.cs" />
     <Compile Include="Utils\Expressions.cs" />
     <Compile Include="BarterHUD\ExtendedBarterHUD.cs" />
     <Compile Include="ModEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\InstanceMethodAccessor.cs" />
     <Compile Include="Utils\TypeCache.cs" />
-    <Compile Include="BarterHUD\VehicleInventory.cs" />
+    <Compile Include="BarterHUD\InventoryOwners\VehicleInventory.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)References\pdb2mdb.exe" "$(TargetPath)"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

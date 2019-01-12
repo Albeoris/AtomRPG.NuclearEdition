@@ -1,34 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace AtomRPG.NuclearEdition
 {
     public sealed class ExtendedBarterHUD : MonoBehaviour
     {
-        private BarterHUD _originalHud;
-        private FieldAccessor<BarterHUD, Inventory> mLeftInventory;
-        private FieldAccessor<BarterHUD, Inventory> mRightInventory;
-        private FieldAccessor<BarterHUD, Inventory> mLeftTradeInventory;
-        private FieldAccessor<BarterHUD, Inventory> mRightTradeInventory;
-
-        private BackpackHUD LeftBackpack => _originalHud.LeftBackpack;
-
+        private BarterHUD_Proxy _hud;
+        
         public void Initialize(BarterHUD originalHud)
         {
-            _originalHud = originalHud;
-
-            mLeftInventory = new FieldAccessor<BarterHUD, Inventory>(_originalHud, nameof(mLeftInventory));
-            mRightInventory = new FieldAccessor<BarterHUD, Inventory>(_originalHud, nameof(mRightInventory));
-            mLeftTradeInventory = new FieldAccessor<BarterHUD, Inventory>(_originalHud, nameof(mLeftTradeInventory));
-            mRightTradeInventory = new FieldAccessor<BarterHUD, Inventory>(_originalHud, nameof(mRightTradeInventory));
+            _hud = new BarterHUD_Proxy(originalHud);
         }
 
         void Update()
         {
-            SwitchDirection switchDirection = CheckSwitch();
-            if (switchDirection != SwitchDirection.None)
-                Switch(switchDirection);
+            ExtendedAction extendedAction = CheckSwitch();
+            switch (extendedAction)
+            {
+                case ExtendedAction.SwitchLeft:
+                case ExtendedAction.SwitchRight:
+                    Switch(extendedAction);
+                    break;
+         
+                case ExtendedAction.AutoSell:
+                    AutoSell();
+                    break;
+            }
         }
 
         void OnDisable()
@@ -39,46 +39,46 @@ namespace AtomRPG.NuclearEdition
 
         private void ChangeLeftBackpack(IInventoryOwner character)
         {
-            mLeftInventory.Value = character.Inventory;
-            LeftBackpack.SetMaxWeigth(character.MaxCarryWeight);
-            _originalHud.ShowBackpackWithCost(LeftBackpack, character.Inventory);
+            _hud.LeftInventory = character.Inventory;
+            _hud.LeftBackpack.SetMaxWeigth(character.MaxCarryWeight);
+            _hud.ShowBackpackWithCost(_hud.LeftBackpack, character.Inventory);
         }
 
-        private void Switch(SwitchDirection switchDirection)
+        private void Switch(ExtendedAction extendedAction)
         {
-            List<IInventoryOwner> allies = GetSwitchableAllies();
+            List<IInventoryOwner> allies = GetLeftSideAllies();
             if (allies.Count < 2)
                 return;
 
-            Int32 newIndex = SwitchCurrentCharacterIndex(switchDirection, allies);
+            Int32 newIndex = SwitchCurrentCharacterIndex(extendedAction, allies);
             if (newIndex == -1)
                 return;
 
             IInventoryOwner leftAlly = allies[newIndex];
             ChangeLeftBackpack(leftAlly);
 
-            _originalHud.TradeBoxText.text = leftAlly.DisplayName;
+            _hud.TradeBoxText.text = leftAlly.DisplayName;
         }
 
-        private Int32 SwitchCurrentCharacterIndex(SwitchDirection switchDirection, List<IInventoryOwner> allies)
+        private Int32 SwitchCurrentCharacterIndex(ExtendedAction extendedAction, List<IInventoryOwner> allies)
         {
-            Int32 currentIndex = allies.FindIndex(cc => cc.Inventory == mLeftInventory.Value);
-            switch (switchDirection)
+            Int32 currentIndex = allies.FindIndex(cc => cc.Inventory == _hud.LeftInventory);
+            switch (extendedAction)
             {
-                case SwitchDirection.Left:
+                case ExtendedAction.SwitchLeft:
                     return allies.LoopedDecrementIndex(currentIndex);
-                case SwitchDirection.Right:
+                case ExtendedAction.SwitchRight:
                     return allies.LoopedIncrementIndex(currentIndex);
                 default:
-                    throw new NotSupportedException(switchDirection.ToString());
+                    throw new NotSupportedException(extendedAction.ToString());
             }
         }
 
-        private List<IInventoryOwner> GetSwitchableAllies()
+        private List<IInventoryOwner> GetLeftSideAllies()
         {
             List<IInventoryOwner> result = new List<IInventoryOwner>(capacity: 8);
 
-            Inventory rightInventory = mRightInventory.Value;
+            Inventory rightInventory = _hud.RightInventory;
 
             // Add vehicle if it's on the current location and not on the right side of the barter window
             if (Game.World.VehicleOnLocation())
@@ -105,25 +105,49 @@ namespace AtomRPG.NuclearEdition
             return result;
         }
 
-        private SwitchDirection CheckSwitch()
+        private ExtendedAction CheckSwitch()
         {
             if (!Game.World.HUD.HasWaitState() && !Game.World.HUD.ItemDragging)
             {
-                if (InputManager.GetKeyUp(InputManager.Action.Camera_A))
-                    return SwitchDirection.Left;
+                if (InputManager.GetKey(InputManager.Action.Highlight))
+                {
+                    if (InputManager.GetKeyUp(InputManager.Action.Camera_A))
+                        return ExtendedAction.AutoSell;
+                }
+                else
+                {
+                    if (InputManager.GetKeyUp(InputManager.Action.Camera_A))
+                        return ExtendedAction.SwitchLeft;
 
-                if (InputManager.GetKeyUp(InputManager.Action.Camera_D))
-                    return SwitchDirection.Right;
+                    if (InputManager.GetKeyUp(InputManager.Action.Camera_D))
+                        return ExtendedAction.SwitchRight;
+                }
             }
 
-            return SwitchDirection.None;
+            return ExtendedAction.None;
         }
 
-        private enum SwitchDirection
+        private void AutoSell()
         {
-            Left = -1,
+            Int32 budget = AutoSellLogic.GetBudget(_hud);
+            if (budget < AutoSellLogic.MinimalBudget)
+            {
+                Debug.LogWarning($"[NuclearEdition] Cannot use auto-sell. Not enough budget. Drop something to the trader's zone. Minimal budget: {AutoSellLogic.MinimalBudget}. Current budget: {budget}");
+                return;
+            }
+
+            List<IInventoryOwner> allies = GetLeftSideAllies();
+
+            AutoSellLogic autoSell = new AutoSellLogic(_hud, allies.Select(a=>a.Inventory));
+            autoSell.Sell();
+        }
+
+        private enum ExtendedAction
+        {
             None = 0,
-            Right = 1
+            SwitchLeft,
+            SwitchRight,
+            AutoSell
         }
     }
 }

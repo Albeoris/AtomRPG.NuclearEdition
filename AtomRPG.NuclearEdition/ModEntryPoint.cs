@@ -12,6 +12,11 @@ namespace AtomRPG.NuclearEdition
     {
         private Single _recheckTimeSec = 0;
 
+        void Awake()
+        {
+            LootRadiusPatches.Patch();
+        }
+
         void Update()
         {
             try
@@ -68,4 +73,59 @@ namespace AtomRPG.NuclearEdition
             }
         }
     }
+
+    //   public void DoPocket(CharacterComponent target, bool steal)
+	//{
+	//	if (Game.World.battle.InBattle && !Game.World.battle.IsOwnTurn(this))
+	//	{
+	//		return;
+	//	}
+	//	if (steal && target.IsMoving())
+	//	{
+	//		return;
+	//	}
+	//	if (target.IsDead())
+	//	{
+	//		if (this.Character.Hallucinating.Level != ConditionLevel.Normal)
+	//		{
+	//			this.PlayState(Resources.Load<TextAsset>("Entities/Behavior/Hallucinating_DogMeat"), base.gameObject);
+	//			return;
+	//		}
+	//		PocketHUD.PocketEnded pocketEnded = new PocketHUD.PocketEnded(target.CkeckSlostsOnClose);
+	//		bool fromCanibal = this.Character.CharProto.Stats.HasPerk(CharacterStats.Perk.Cannibal);
+	//		target.OnDeadLoot(fromCanibal);
+	//		Inventory inventory = new Inventory(null);
+	//		this.MergeItem(inventory, target.Character);
+	//		Cell cell = target.GetCell();
+	//		foreach (BehaviorComponent behaviorComponent in Game.World.Behaviors)
+	//		{
+	//			if (behaviorComponent is CharacterComponent)
+	//			{
+	//				CharacterComponent characterComponent = behaviorComponent as CharacterComponent;
+	//				if (characterComponent.IsDead() && characterComponent != target && cell.X == characterComponent.GetCell().X && cell.Y == characterComponent.GetCell().Y)
+	//				{
+	//					pocketEnded = (PocketHUD.PocketEnded)Delegate.Combine(pocketEnded, new PocketHUD.PocketEnded(characterComponent.CkeckSlostsOnClose));
+	//					characterComponent.OnDeadLoot(fromCanibal);
+	//					this.MergeItem(inventory, characterComponent.Character);
+	//				}
+	//			}
+	//		}
+	//		pocketEnded = (PocketHUD.PocketEnded)Delegate.Combine(pocketEnded, new PocketHUD.PocketEnded(target.OnPocketClosed));
+	//		Game.World.HUD.ShowPocket(this, inventory, steal, string.Empty, pocketEnded);
+	//	}
+	//	else
+	//	{
+	//		if (this.Character.Hallucinating.Level != ConditionLevel.Normal)
+	//		{
+	//			this.PlayState(Resources.Load<TextAsset>("Entities/Behavior/Hallucinating_Steal"), base.gameObject);
+	//			return;
+	//		}
+	//		target.CloseBackpackByScript = false;
+	//		this.PlayState(target.Character.CharProto.OnPocket, target.gameObject);
+	//		if (!target.CloseBackpackByScript)
+	//		{
+	//			Game.World.HUD.ShowPocket(this, target.Character.Inventory, steal, string.Empty, null);
+	//		}
+	//	}
+	//}
 }

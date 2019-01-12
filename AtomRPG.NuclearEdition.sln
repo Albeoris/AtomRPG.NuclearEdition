@@ -13,16 +13,47 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "References", "References", "{D4AE6F1E-7869-4954-B6CE-E6FAC795141D}"
+	ProjectSection(SolutionItems) = preProject
+		References\pdb2mdb.exe = References\pdb2mdb.exe
+		References\pdb2mdb_LICENSE.txt = References\pdb2mdb_LICENSE.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtomRPG.Debugger", "AtomRPG.Debugger\AtomRPG.Debugger.csproj", "{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E} = {674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AtomRPG.DebuggerInjection", "AtomRPG.DebuggerInjection\AtomRPG.DebuggerInjection.vcxproj", "{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{747B819B-6743-454A-9224-480D0045C662}.Debug|x64.ActiveCfg = Debug|x64
 		{747B819B-6743-454A-9224-480D0045C662}.Debug|x64.Build.0 = Debug|x64
+		{747B819B-6743-454A-9224-480D0045C662}.Debug|x86.ActiveCfg = Debug|x64
 		{747B819B-6743-454A-9224-480D0045C662}.Release|x64.ActiveCfg = Release|x64
 		{747B819B-6743-454A-9224-480D0045C662}.Release|x64.Build.0 = Release|x64
+		{747B819B-6743-454A-9224-480D0045C662}.Release|x86.ActiveCfg = Release|x64
+		{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}.Debug|x64.ActiveCfg = Debug|x64
+		{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}.Debug|x64.Build.0 = Debug|x64
+		{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}.Debug|x86.ActiveCfg = Debug|x64
+		{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}.Release|x64.ActiveCfg = Release|x64
+		{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}.Release|x64.Build.0 = Release|x64
+		{45AA86BB-8FFF-47F1-BF1B-285F04C4076B}.Release|x86.ActiveCfg = Release|x64
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Debug|x64.ActiveCfg = Debug|x64
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Debug|x64.Build.0 = Debug|x64
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Debug|x86.ActiveCfg = Debug|Win32
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Debug|x86.Build.0 = Debug|Win32
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Release|x64.ActiveCfg = Release|x64
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Release|x64.Build.0 = Release|x64
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Release|x86.ActiveCfg = Release|Win32
+		{674FD93F-BCAE-476F-8BA3-B2A58F22EB9E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
