@@ -1,4 +1,4 @@
-# AtomRPG.NuclearEdition
+﻿# AtomRPG.NuclearEdition
 Modification for the game Atom RPG
 
 # Install (easy)
