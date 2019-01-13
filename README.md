@@ -2,7 +2,7 @@
 Modification for the game Atom RPG
 
 # Install (easy)
-Unpack [that](https://yadi.sk/d/HvnTeuGUSu2rgQ) archive to the **game folder**
+Unpack [that](https://yadi.sk/d/NYZBpk-a9nSFXg) archive to the **game folder**
 
 # Install (hard)
 1. Unpack [that](https://yadi.sk/d/tRON_stJkeC6ng) archive to the **game folder**
@@ -15,10 +15,22 @@ Unpack [that](https://yadi.sk/d/HvnTeuGUSu2rgQ) archive to the **game folder**
 
 # Todo
 1. Resolve game path via Windows Registry
-2. Generate .mdb symbols after build
 
 # Feautures
-1. You can switch between characters during barter
+1. Switch between allies in the barter window
+Open a barter window with an NPC or partner. Press D (Camera Right) to display the inventory of the next ally on the left side of the screen. Press A (Camera Left) to return to the previous one. The list is looped. A vehicle is only available if it is located in the same location as you. The name of the current character will be displayed in the middle of the screen.
+
+2. Sale of surplus
+Open a barter window with an NPC. Select items to purchase (this is mandatory) worth 20 rubles or more. Press Alt+A (Highlight + Camera Left) to automatically select items of comparable value from the party inventory. As in the previous case, the vehicle inventory will only be available if the vehicle is located on the same map as you. Items for sale are selected automatically based on heuristic analysis. You must complete the sale yourself - the algorithm only selects items for sale, but does not complete the transaction.
+
+3. Aggregation of loot from corpses
+Open the inventory of the dead character. Items of all dead characters within a radius of 20 cells from looting character will be displayed on the right side of the screen. You can take all or some of these items.
+
+4. Highlight of empty corpses and containers
+If an unlocked container or a dead character doesn't have items in the inventory, they will be highlighted not in green, but in yellow.
+
+5. Display hit chances without movement
+In battle, hold Alt (Highlight) to display the hit chance of the current weapon for each visible enemy.
 
 # Current loader
 
