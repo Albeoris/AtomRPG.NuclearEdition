@@ -58,7 +58,6 @@ namespace AtomRPG.NuclearEdition
                     cg.Emit(OpCodes.Ldarg_S, i);
             }
 
-
             cg.Emit(OpCodes.Callvirt, instanceMethod);
             cg.Emit(OpCodes.Ret);
 

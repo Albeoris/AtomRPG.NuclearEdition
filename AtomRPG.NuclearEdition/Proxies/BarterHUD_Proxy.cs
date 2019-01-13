@@ -5,12 +5,12 @@ namespace AtomRPG.NuclearEdition
 {
     internal sealed class BarterHUD_Proxy
     {
-        public BarterHUD Instance { get; }
+        public BarterHUD _instance { get; }
 
-        private readonly FieldAccessor<BarterHUD, Inventory> mLeftInventory;
-        private readonly FieldAccessor<BarterHUD, Inventory> mRightInventory;
-        private readonly FieldAccessor<BarterHUD, Inventory> mLeftTradeInventory;
-        private readonly FieldAccessor<BarterHUD, Inventory> mRightTradeInventory;
+        private readonly InstanceFieldAccessor<BarterHUD, Inventory> mLeftInventory;
+        private readonly InstanceFieldAccessor<BarterHUD, Inventory> mRightInventory;
+        private readonly InstanceFieldAccessor<BarterHUD, Inventory> mLeftTradeInventory;
+        private readonly InstanceFieldAccessor<BarterHUD, Inventory> mRightTradeInventory;
 
         private readonly DGetSellDiscount _getSellDiscount;
         private readonly DCalcSellCost _calcSellCost;
@@ -26,12 +26,12 @@ namespace AtomRPG.NuclearEdition
 
         public BarterHUD_Proxy(BarterHUD barterHUD)
         {
-            Instance = barterHUD;
+            _instance = barterHUD;
 
-            mLeftInventory = new FieldAccessor<BarterHUD, Inventory>(Instance, nameof(mLeftInventory));
-            mRightInventory = new FieldAccessor<BarterHUD, Inventory>(Instance, nameof(mRightInventory));
-            mLeftTradeInventory = new FieldAccessor<BarterHUD, Inventory>(Instance, nameof(mLeftTradeInventory));
-            mRightTradeInventory = new FieldAccessor<BarterHUD, Inventory>(Instance, nameof(mRightTradeInventory));
+            mLeftInventory = new InstanceFieldAccessor<BarterHUD, Inventory>(_instance, nameof(mLeftInventory));
+            mRightInventory = new InstanceFieldAccessor<BarterHUD, Inventory>(_instance, nameof(mRightInventory));
+            mLeftTradeInventory = new InstanceFieldAccessor<BarterHUD, Inventory>(_instance, nameof(mLeftTradeInventory));
+            mRightTradeInventory = new InstanceFieldAccessor<BarterHUD, Inventory>(_instance, nameof(mRightTradeInventory));
 
             _getSellDiscount = InstanceMethodAccessor.GetDelegate<DGetSellDiscount>("GetSellDiscount");
             _calcSellCost = InstanceMethodAccessor.GetDelegate<DCalcSellCost>("CalcSellCost");
@@ -40,11 +40,11 @@ namespace AtomRPG.NuclearEdition
             _dropItemToBackpack = InstanceMethodAccessor.GetDelegate<DDropItemToBackpack>("DropItemToBackpack");
         }
 
-        public BackpackHUD LeftBackpack => Instance.LeftBackpack;
-        public BackpackHUD LeftTradeBackpack => Instance.LeftTradeBackpack;
-        public BackpackHUD RightBackpack => Instance.RightBackpack;
-        public BackpackHUD RightTradeBackpack => Instance.RightTradeBackpack;
-        public Text TradeBoxText => Instance.TradeBoxText;
+        public BackpackHUD LeftBackpack => _instance.LeftBackpack;
+        public BackpackHUD LeftTradeBackpack => _instance.LeftTradeBackpack;
+        public BackpackHUD RightBackpack => _instance.RightBackpack;
+        public BackpackHUD RightTradeBackpack => _instance.RightTradeBackpack;
+        public Text TradeBoxText => _instance.TradeBoxText;
 
         public Inventory LeftInventory
         {
@@ -72,32 +72,37 @@ namespace AtomRPG.NuclearEdition
 
         public Int32 GetSellDiscount()
         {
-            return _getSellDiscount(Instance);
+            return _getSellDiscount(_instance);
         }
 
         public Int32 CalcSellCost(Inventory inventory)
         {
-            return _calcSellCost(Instance, inventory);
+            return _calcSellCost(_instance, inventory);
         }
 
         public Int32 CalcBuyCost(Inventory inventory)
         {
-            return _calcBuyCost(Instance, inventory);
+            return _calcBuyCost(_instance, inventory);
         }
 
         public Int32 CalcCostItem(Item item, Int32 sale, Boolean upTo)
         {
-            return _calcCostItem(Instance, item, sale, upTo);
+            return _calcCostItem(_instance, item, sale, upTo);
         }
 
         public void DropItemToBackpack(BackpackHUD toBackpuck, Inventory toInventory, Item item)
         {
-            _dropItemToBackpack(Instance, toBackpuck, toInventory, item);
+            _dropItemToBackpack(_instance, toBackpuck, toInventory, item);
+        }
+
+        public void Invalidate()
+        {
+            _instance.Invalidate();
         }
 
         public void ShowBackpackWithCost(BackpackHUD backpack, Inventory inventory)
         {
-            Instance.ShowBackpackWithCost(backpack, inventory);
+            _instance.ShowBackpackWithCost(backpack, inventory);
         }
     }
 }

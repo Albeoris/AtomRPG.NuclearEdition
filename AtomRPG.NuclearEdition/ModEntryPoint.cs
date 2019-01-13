@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Harmony;
 using UnityEngine;
 
 namespace AtomRPG.NuclearEdition
@@ -14,7 +15,19 @@ namespace AtomRPG.NuclearEdition
 
         void Awake()
         {
-            LootRadiusPatches.Patch();
+            try
+            {
+                HarmonyInstance harmony = HarmonyInstance.Create("com.Albeoris.AtomRPG.NuclearEdition.Patches");
+
+                LootRadiusPatches.Patch(harmony);
+                TargetHitInfo_Patches.Patch(harmony);
+
+                Debug.Log("[AtomRPG.NuclearEdition] Successfully patched via Harmony.");
+            }
+            catch (Exception ex)
+            {
+                Debug.Log($"[AtomRPG.NuclearEdition] Failed to patch via Harmony. Error: {ex}");
+            }
         }
 
         void Update()

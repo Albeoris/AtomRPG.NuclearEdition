@@ -43,6 +43,7 @@ namespace AtomRPG.NuclearEdition
                 {
                     PartyItem item = items[index];
                     Int32 cost = _itemsCost.GetSingleItemCost(item);
+
                     if (budget - cost < 0)
                         continue;
 
@@ -50,8 +51,11 @@ namespace AtomRPG.NuclearEdition
                     if (count < 1)
                         continue;
 
-                    Int32 maxCount = budget / cost;
-                    count = Math.Min(count, maxCount);
+                    if (cost > 0)
+                    {
+                        Int32 maxCount = budget / cost;
+                        count = Math.Min(count, maxCount);
+                    }
 
                     somethingSelled = true;
                     SellItem(item, count);
@@ -80,8 +84,8 @@ namespace AtomRPG.NuclearEdition
 
             if (somethingSelled)
             {
-                _barterHUD.Instance.Invalidate();
-                _barterHUD.Instance.ShowBackpackWithCost(_barterHUD.LeftBackpack, _barterHUD.LeftInventory);
+                _barterHUD.Invalidate();
+                _barterHUD.ShowBackpackWithCost(_barterHUD.LeftBackpack, _barterHUD.LeftInventory);
             }
 
         }

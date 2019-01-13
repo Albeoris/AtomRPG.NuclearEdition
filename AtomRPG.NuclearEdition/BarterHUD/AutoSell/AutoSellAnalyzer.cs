@@ -227,6 +227,7 @@ namespace AtomRPG.NuclearEdition
 
             switch (weapon.name)
             {
+                case "zatochka":
                 case "Rozochka":
                 case "Shovel_Work":
                 case "Nagant_Rust":
@@ -237,6 +238,8 @@ namespace AtomRPG.NuclearEdition
                 case "Makarov_Rust":
                 case "Mauser":
                 case "Montirovka":
+                case "sawed-off_rust":
+                case "tokarev_rust":
                     return item.Count - 1;
             }
 

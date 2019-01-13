@@ -9,12 +9,10 @@ namespace AtomRPG.NuclearEdition
 {
     internal sealed class LootRadiusPatches
     {
-        public static void Patch()
+        public static void Patch(HarmonyInstance harmony)
         {
             try
             {
-                HarmonyInstance harmony = HarmonyInstance.Create("com.Albeoris.AtomRPG.NuclearEdition.PlayerSelectionPatches");
-
                 PatchPlayerSelection_HighlightLoot(harmony);
                 PatchPlayerHUD_LootRadius(harmony);
 

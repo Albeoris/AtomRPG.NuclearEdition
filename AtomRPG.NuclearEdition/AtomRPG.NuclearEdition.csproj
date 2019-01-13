@@ -47,25 +47,34 @@
     <Reference Include="System.Core" />
     <Reference Include="UnityEngine" />
     <Reference Include="UnityEngine.CoreModule" />
+    <Reference Include="UnityEngine.TextRenderingModule" />
     <Reference Include="UnityEngine.UI" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarterHUD\AutoSell\AutoSellAnalyzer.cs" />
     <Compile Include="BarterHUD\AutoSell\AutoSellLogic.cs" />
-    <Compile Include="BarterHUD\BarterHUD_Proxy.cs" />
+    <Compile Include="BattleHUD\PinnedCharacterPosition.cs" />
+    <Compile Include="BattleHUD\TargetHitHud.cs" />
+    <Compile Include="BattleHUD\TargetHitHudCollection.cs" />
+    <Compile Include="BattleHUD\TargetHitInfo_Logic.cs" />
+    <Compile Include="BattleHUD\VisibleTargetHud.cs" />
+    <Compile Include="Proxies\BarterHUD_Proxy.cs" />
     <Compile Include="BarterHUD\InventoryOwners\CharacterInventory.cs" />
     <Compile Include="BarterHUD\InventoryOwners\IInventoryOwner.cs" />
     <Compile Include="BarterHUD\PartyItems\PartyItemsCost.cs" />
     <Compile Include="BarterHUD\PartyItems\InventoryItem.cs" />
     <Compile Include="BarterHUD\PartyItems\PartyInventory.cs" />
     <Compile Include="BarterHUD\PartyItems\PartyItem.cs" />
-    <Compile Include="LootRadius\LootRadiusPatches.cs" />
+    <Compile Include="Proxies\PlayerControl_Proxy.cs" />
+    <Compile Include="Proxies\PlayerHUD_Proxy.cs" />
+    <Compile Include="BattleHUD\TargetHitInfo_Patches.cs" />
+    <Compile Include="FieldHUD\LootRadiusPatches.cs" />
     <Compile Include="Utils\ExtensionMethodsList.cs" />
-    <Compile Include="Utils\FieldAccessor.cs" />
     <Compile Include="Utils\Expressions.cs" />
     <Compile Include="BarterHUD\ExtendedBarterHUD.cs" />
     <Compile Include="ModEntryPoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\InstanceFieldAccessor.cs" />
     <Compile Include="Utils\InstanceMethodAccessor.cs" />
     <Compile Include="Utils\TypeCache.cs" />
     <Compile Include="BarterHUD\InventoryOwners\VehicleInventory.cs" />
