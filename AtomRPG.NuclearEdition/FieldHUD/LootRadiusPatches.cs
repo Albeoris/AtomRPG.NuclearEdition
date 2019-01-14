@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace AtomRPG.NuclearEdition
 {
-    internal sealed class LootRadiusPatches
+    internal sealed class LootRadius_Patches
     {
         public static void Patch(HarmonyInstance harmony)
         {
@@ -16,25 +16,25 @@ namespace AtomRPG.NuclearEdition
                 PatchPlayerSelection_HighlightLoot(harmony);
                 PatchPlayerHUD_LootRadius(harmony);
 
-                Debug.Log($"[{nameof(LootRadiusPatches)}] Successfully patched.");
+                Debug.Log($"[{nameof(LootRadius_Patches)}] Successfully patched.");
             }
             catch (Exception ex)
             {
-                Debug.Log($"[{nameof(LootRadiusPatches)}] Failed to patch. Error: {ex}");
+                Debug.Log($"[{nameof(LootRadius_Patches)}] Failed to patch. Error: {ex}");
             }
         }
 
         private static void PatchPlayerSelection_HighlightLoot(HarmonyInstance harmony)
         {
             MethodInfo original = TypeCache<PlayerSelection>.GetInstanceMethod("ShowOutline");
-            MethodInfo prefix = TypeCache<LootRadiusPatches>.GetStaticMethod(nameof(ShowOutline_Prefix_HighlightLoot));
+            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(ShowOutline_Prefix_HighlightLoot));
             harmony.Patch(original, new HarmonyMethod(prefix));
         }
 
         private static void PatchPlayerHUD_LootRadius(HarmonyInstance harmony)
         {
             MethodInfo original = TypeCache<PlayerHUD>.GetInstanceMethod("ShowPocket");
-            MethodInfo prefix = TypeCache<LootRadiusPatches>.GetStaticMethod(nameof(ShowPocket_Prefix));
+            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(ShowPocket_Prefix));
             harmony.Patch(original, new HarmonyMethod(prefix));
         }
 

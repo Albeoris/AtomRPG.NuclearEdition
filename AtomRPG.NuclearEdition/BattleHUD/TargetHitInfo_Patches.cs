@@ -26,11 +26,11 @@ namespace AtomRPG.NuclearEdition
         private static void Patch_PlayerControl_ProcessSelection_ShowHitChance(HarmonyInstance harmony)
         {
             MethodInfo original = TypeCache<PlayerControl>.GetInstanceMethod("ProcessSelection");
-            MethodInfo prefix = TypeCache<TargetHitInfo_Patches>.GetStaticMethod(nameof(ProcessSelection_Postfix_ShowHitChance));
+            MethodInfo prefix = TypeCache<TargetHitInfo_Patches>.GetStaticMethod(nameof(ProcessSelection_Prefix_ShowHitChance));
             harmony.Patch(original, new HarmonyMethod(prefix));
         }
 
-        private static void ProcessSelection_Postfix_ShowHitChance(PlayerControl __instance)
+        private static void ProcessSelection_Prefix_ShowHitChance(PlayerControl __instance)
         {
             var playerControl = new PlayerControl_Proxy(__instance);
             

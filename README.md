@@ -37,6 +37,17 @@ If an unlocked container or a dead character doesn't have items in the inventory
 
 In battle, hold Alt (Highlight) to display the hit chance of the current weapon for each visible enemy.
 
+6. Fast traveling without a vehicle
+
+On world map, hold Alt (Highlight) to increase the movement speed. It will also increase hunger depending on the weight being carried. The speed depends on the stats.
+
+Speed increase factor: 1 + (0.3 * Str + 0.5 * End + 0.7 * Agi) / 5
+
+Hunger increase factor: 2 + Weight / MaxWeight
+
+Since we cannot control the characteristics of our partners, only the parameters of the main character are used.
+
+
 # Current loader
 
     string modsFolder = Path.GetFullPath("Mods");

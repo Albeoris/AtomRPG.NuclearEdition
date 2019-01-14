@@ -29,5 +29,16 @@ namespace AtomRPG.NuclearEdition
 
             return method;
         }
+
+        public static PropertyInfo GetInstanceProperty(String propertyName)
+        {
+            const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+            PropertyInfo property = Type.GetProperty(propertyName, bindingFlags);
+            if (property == null)
+                throw new ArgumentException($"Cannot find property \"{propertyName}\" in the type \"{Type}\".", propertyName);
+
+            return property;
+        }
     }
 }

@@ -19,8 +19,9 @@ namespace AtomRPG.NuclearEdition
             {
                 HarmonyInstance harmony = HarmonyInstance.Create("com.Albeoris.AtomRPG.NuclearEdition.Patches");
 
-                LootRadiusPatches.Patch(harmony);
+                LootRadius_Patches.Patch(harmony);
                 TargetHitInfo_Patches.Patch(harmony);
+                FastTraveling_Patches.Patch(harmony);
 
                 Debug.Log("[AtomRPG.NuclearEdition] Successfully patched via Harmony.");
             }
