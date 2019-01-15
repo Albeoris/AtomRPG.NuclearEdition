@@ -22,6 +22,7 @@ namespace AtomRPG.NuclearEdition
                 LootRadius_Patches.Patch(harmony);
                 TargetHitInfo_Patches.Patch(harmony);
                 FastTraveling_Patches.Patch(harmony);
+                //TeamMatePlayerControl_Patches.Patch(harmony);
 
                 Debug.Log("[AtomRPG.NuclearEdition] Successfully patched via Harmony.");
             }
