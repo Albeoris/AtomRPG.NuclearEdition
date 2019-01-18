@@ -30,11 +30,13 @@ Open a barter window with an NPC. Select items to purchase (this is mandatory) w
 Open the inventory of the dead character. Items of all dead characters within a radius of 20 cells from looting character will be displayed on the right side of the screen. You can take all or some of these items.
 
 4. Better highlight of dead bodies and containers
+
 Changed highlight color of environment objects.
 Locked containers or doors - Violet.
 Empty containers or corpses - Gray.
 
 5. Auto-lockpick
+
 Hold Alt (Highlight) and click on a locked container or door to send a character with maximum skill of lock picking.
 
 6. Display hit chances without movement
