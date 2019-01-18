@@ -31,13 +31,16 @@ Open the inventory of the dead character. Items of all dead characters within a 
 
 4. Highlight of empty corpses and containers
 
-If an unlocked container or a dead character doesn't have items in the inventory, they will be highlighted not in green, but in yellow.
+In battle, hold Alt (Highlight) to display the hit chance of the current weapon for each visible enemy.
 
-5. Display hit chances without movement
+5. Auto-lockpick
+Hold Alt (Highlight) and click on a locked container or door to send a character with maximum skill of lock picking.
+
+6. Display hit chances without movement
 
 In battle, hold Alt (Highlight) to display the hit chance of the current weapon for each visible enemy.
 
-6. Fast traveling without a vehicle
+7. Fast traveling without a vehicle
 
 On world map, hold Alt (Highlight) to increase the movement speed. It will also increase hunger depending on the weight being carried. The speed depends on the stats.
 

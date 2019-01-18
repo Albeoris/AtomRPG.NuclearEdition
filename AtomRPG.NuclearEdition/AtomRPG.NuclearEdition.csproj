@@ -59,6 +59,7 @@
     <Compile Include="HUD\BattleHUD\TargetHitHudCollection.cs" />
     <Compile Include="HUD\BattleHUD\TargetHitInfo_Logic.cs" />
     <Compile Include="HUD\BattleHUD\VisibleTargetHud.cs" />
+    <Compile Include="HUD\FieldHUD\AutoLockpick_Patches.cs" />
     <Compile Include="HUD\WorldMapHUD\FastTravelingPatches.cs" />
     <Compile Include="Proxies\BarterHUD_Proxy.cs" />
     <Compile Include="HUD\BarterHUD\InventoryOwners\CharacterInventory.cs" />

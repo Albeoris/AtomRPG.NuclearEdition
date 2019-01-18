@@ -13,8 +13,9 @@ namespace AtomRPG.NuclearEdition
         {
             try
             {
-                PatchPlayerSelection_HighlightLoot(harmony);
-                PatchPlayerHUD_LootRadius(harmony);
+                Patch_PlayerSelection_HighlightLoot_ShowOutline(harmony);
+                Patch_PlayerSelection_HighlightLoot_GetColorBySelection(harmony);
+                Patch_PlayerHUD_ShowPocket_LootRadius(harmony);
 
                 Debug.Log($"[{nameof(LootRadius_Patches)}] Successfully patched.");
             }
@@ -24,22 +25,47 @@ namespace AtomRPG.NuclearEdition
             }
         }
 
-        private static void PatchPlayerSelection_HighlightLoot(HarmonyInstance harmony)
+        private static void Patch_PlayerSelection_HighlightLoot_ShowOutline(HarmonyInstance harmony)
         {
             MethodInfo original = TypeCache<PlayerSelection>.GetInstanceMethod("ShowOutline");
-            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(ShowOutline_Prefix_HighlightLoot));
+            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(PlayerSelection_ShowOutline_Prefix_HighlightLoot));
             harmony.Patch(original, new HarmonyMethod(prefix));
         }
 
-        private static void PatchPlayerHUD_LootRadius(HarmonyInstance harmony)
+        private static void Patch_PlayerSelection_HighlightLoot_GetColorBySelection(HarmonyInstance harmony)
+        {
+            MethodInfo original = TypeCache<PlayerSelection>.GetInstanceMethod("GetColorBySelection");
+            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(PlayerSelection_GetColorBySelection_Prefix_HighlightLoot));
+            harmony.Patch(original, new HarmonyMethod(prefix));
+        }
+
+        private static void Patch_PlayerHUD_ShowPocket_LootRadius(HarmonyInstance harmony)
         {
             MethodInfo original = TypeCache<PlayerHUD>.GetInstanceMethod("ShowPocket");
-            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(ShowPocket_Prefix));
+            MethodInfo prefix = TypeCache<LootRadius_Patches>.GetStaticMethod(nameof(PlayerHUD_ShowPocket_Prefix));
             harmony.Patch(original, new HarmonyMethod(prefix));
         }
 
-        public static void ShowOutline_Prefix_HighlightLoot(PlayerSelection __instance, EntityComponent entity, ref PlayerSelection.SelectionType type, Single intensity = 0f, Single outline = 0.002f)
+        public static Boolean PlayerSelection_GetColorBySelection_Prefix_HighlightLoot(PlayerSelection __instance, PlayerSelection.SelectionType type, ref Color __result)
         {
+            UInt32 colorBits = (UInt32)type;
+            if (colorBits < 0x01000000)
+                return true;
+
+            Single a = ((colorBits & 0xFF_00_00_00) >> 24) / 256.0f;
+            Single r = ((colorBits & 0x00_FF_00_00) >> 16) / 256.0f;
+            Single g = ((colorBits & 0x00_00_FF_00) >> 8) / 256.0f;
+            Single b = (colorBits & 0x00_00_00_FF) / 256.0f;
+
+            __result = new Color(r, g, b, a);
+            return false;
+        }
+
+        public static void PlayerSelection_ShowOutline_Prefix_HighlightLoot(PlayerSelection __instance, EntityComponent entity, ref PlayerSelection.SelectionType type, Single intensity = 0f, Single outline = 0.002f)
+        {
+            const PlayerSelection.SelectionType GrayColor = unchecked((PlayerSelection.SelectionType)0xFF____80_80_80);
+            const PlayerSelection.SelectionType VioletColor = unchecked((PlayerSelection.SelectionType)0xFF__EA_04_FF);
+
             if (type != PlayerSelection.SelectionType.Select)
                 return;
 
@@ -59,22 +85,25 @@ namespace AtomRPG.NuclearEdition
                 }
 
                 if (charComp.Character.GetItemsCost() == 0)
-                    type = PlayerSelection.SelectionType.Panic;
+                    type = GrayColor;
             }
             else if (entity is ChestComponent chestComp)
             {
                 Chest chest = chestComp.chest;
                 if (chest.lockLevel != 0)
+                {
+                    type = VioletColor;
                     return;
+                }
 
                 if (chest.Inventory.Count == 0)
-                    type = PlayerSelection.SelectionType.Panic;
+                    type = GrayColor;
             }
         }
 
         private delegate void DMergeItem(CharacterComponent __instance, Inventory inv, Character character);
 
-        public static void ShowPocket_Prefix(PlayerHUD __instance, CharacterComponent characterComponent, Inventory pocket, Boolean steal, String fraction, ref PocketHUD.PocketEnded notify)
+        public static void PlayerHUD_ShowPocket_Prefix(PlayerHUD __instance, CharacterComponent characterComponent, Inventory pocket, Boolean steal, String fraction, ref PocketHUD.PocketEnded notify)
         {
             if (notify == null)
                 return;
