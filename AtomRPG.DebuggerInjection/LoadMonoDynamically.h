@@ -15,7 +15,7 @@ HMODULE gMonoModule;
 
 inline int SetupMono()
 {
-	gMonoModule = LoadLibraryW(L"Mono\\EmbedRuntime\\mono.dll");
+	gMonoModule = LoadLibraryW(L"MonoBleedingEdge\\EmbedRuntime\\mono-2.0-bdwgc.dll");
 	if (!gMonoModule) {
 		return 1;
 	}

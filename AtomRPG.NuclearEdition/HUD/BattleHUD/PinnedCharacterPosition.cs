@@ -6,7 +6,7 @@ namespace AtomRPG.NuclearEdition
     internal sealed class PinnedCharacterPosition : IDisposable
     {
         public CharacterComponent Character { get; }
-        public Cell Cell { get; }
+        public PathCell Cell { get; }
 
         private readonly Int32 _originalX, _originalY;
         private readonly Vector3 _originalPosition;

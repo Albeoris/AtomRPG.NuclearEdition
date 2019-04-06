@@ -18,7 +18,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>W:\Steam\steamapps\common\ATOM RPG\Mods\NuclearEdition\</OutputPath>
+    <OutputPath>..\..\..\..\Users\Owner\AppData\LocalLow\AtomTeam\Atom\Mods\NuclearEdition\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -28,7 +28,7 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>W:\Steam\steamapps\common\ATOM RPG\Mods\NuclearEdition\</OutputPath>
+    <OutputPath>..\..\..\..\Users\Owner\AppData\LocalLow\AtomTeam\Atom\Mods\NuclearEdition\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -42,7 +42,7 @@
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.1.2.0.1\lib\net35\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp" />
+    <Reference Include="AtomGame" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="UnityEngine" />
@@ -52,8 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\Manual\TeamMatePlayerControl_Patches.cs" />
-    <Compile Include="HUD\BarterHUD\AutoSell\AutoSellAnalyzer.cs" />
-    <Compile Include="HUD\BarterHUD\AutoSell\AutoSellLogic.cs" />
     <Compile Include="HUD\BattleHUD\PinnedCharacterPosition.cs" />
     <Compile Include="HUD\BattleHUD\TargetHitHud.cs" />
     <Compile Include="HUD\BattleHUD\TargetHitHudCollection.cs" />

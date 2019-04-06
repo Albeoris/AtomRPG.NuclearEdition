@@ -128,7 +128,7 @@ namespace AtomRPG.NuclearEdition
             if (characters.Count == 0)
                 return;
 
-            Cell cell = characters.First().GetCell();
+            PathCell cell = characters.First().GetCell();
 
             DMergeItem mergeItem = InstanceMethodAccessor.GetDelegate<DMergeItem>("MergeItem");
 
@@ -141,7 +141,7 @@ namespace AtomRPG.NuclearEdition
                 if (!cc.IsDead())
                     continue;
 
-                Cell otherCell = cc.GetCell();
+                PathCell otherCell = cc.GetCell();
                 var dx = otherCell.X - cell.X;
                 var dy = otherCell.Y - cell.Y;
                 var distance = Math.Sqrt(dx * dx + dy * dy);

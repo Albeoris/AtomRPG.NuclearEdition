@@ -24,10 +24,6 @@ namespace AtomRPG.NuclearEdition
                 case ExtendedAction.SwitchRight:
                     Switch(extendedAction);
                     break;
-         
-                case ExtendedAction.AutoSell:
-                    AutoSell();
-                    break;
             }
         }
 
@@ -111,8 +107,7 @@ namespace AtomRPG.NuclearEdition
             {
                 if (InputManager.GetKey(InputManager.Action.Highlight))
                 {
-                    if (InputManager.GetKeyUp(InputManager.Action.Camera_A))
-                        return ExtendedAction.AutoSell;
+                    // Do nothing
                 }
                 else
                 {
@@ -127,27 +122,11 @@ namespace AtomRPG.NuclearEdition
             return ExtendedAction.None;
         }
 
-        private void AutoSell()
-        {
-            Int32 budget = AutoSellLogic.GetBudget(_hud);
-            if (budget < AutoSellLogic.MinimalBudget)
-            {
-                Debug.LogWarning($"[NuclearEdition] Cannot use auto-sell. Not enough budget. Drop something to the trader's zone. Minimal budget: {AutoSellLogic.MinimalBudget}. Current budget: {budget}");
-                return;
-            }
-
-            List<IInventoryOwner> allies = GetLeftSideAllies();
-
-            AutoSellLogic autoSell = new AutoSellLogic(_hud, allies.Select(a=>a.Inventory));
-            autoSell.Sell();
-        }
-
         private enum ExtendedAction
         {
             None = 0,
             SwitchLeft,
-            SwitchRight,
-            AutoSell
+            SwitchRight
         }
     }
 }

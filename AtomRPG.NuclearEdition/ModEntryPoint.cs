@@ -67,6 +67,11 @@ namespace AtomRPG.NuclearEdition
 
         private void Initialize(BarterHUD barterHud)
         {
+            //foreach (var tabs in FindObjectsOfType<TeammateTabsHUD>())
+            //{
+
+            //}
+
             ExtendedBarterHUD extendedHud = barterHud.gameObject.GetComponent<ExtendedBarterHUD>();
             if (extendedHud == null)
                 InitializeExtendedBarterHUD(barterHud);

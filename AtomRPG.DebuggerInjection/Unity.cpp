@@ -3,7 +3,7 @@
 
 void EnableMonoDebug()
 {
-	const char *jitOptions = "--debugger-agent=transport=dt_socket,embedding=1,server=y,defer=y";
+	const char *jitOptions = "--debugger-agent=transport=dt_socket,embedding=1,server=y";
 	char *jitArguments[1];
 	jitArguments[0] = _strdup(jitOptions);
 	mono_jit_parse_options(1, jitArguments);
